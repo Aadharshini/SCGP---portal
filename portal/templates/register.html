@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - Smart Campus Portal</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'portal/style.css' %}">
+</head>
+<body>
+    <div class="container register-container">
+        <h1>Create Account</h1>
+        <p>Join the Smart Campus Grievance Portal</p>
+
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+
+        <form action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
+            
+            <div class="form-grid">
+
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" name="username" placeholder="Choose a username" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Email ID</label>
+                    <input type="email" name="email" placeholder="example@college.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Select Role</label>
+                    <select name="role" required>
+                        <option value="" disabled selected>-- Select Role --</option>
+                        <option value="Student">Student</option>
+                        <option value="Staff">Staff</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Department</label>
+                    <select name="department" required>
+                        <option value="" disabled selected>-- Select Department --</option>
+                        <option value="B.A.English Literature">B.A.English Literature</option>
+                        <option value="B.Com">B.Com</option>
+                        <option value="B.Com CA">B.Com (Computer Applications)</option>
+                        <option value="B.Com PA">B.Com (Professional Accounting)</option>
+                        <option value="B.Sc CS">B.Sc Computer Science</option>
+                        <option value="B.Sc CS DA">B.Sc CS with Data Analytics</option>
+                        <option value="B.Sc IT">B.Sc Information Technology</option>
+                        <option value="BCA">BCA (Comp. Applications)</option>
+                        <option value="CDF">Costume Design & Fashion (CDF)</option>
+                        <option value="BBA CA">BBA CA</option>
+                        <option value="B.Sc Maths">B.Sc Mathematics</option>
+                        <option value="B.Sc Chemistry">B.Sc Chemistry</option>
+                        <option value="B.Sc Physics">B.Sc Physics</option>
+                        <option value="B.Sc Botany">B.Sc Botany</option>
+                        <option value="B.Sc Zoology">B.Sc Zoology</option>
+                        <option value="M.Com">M.Com</option>
+                        <option value="M.Sc Chemistry">M.Sc Chemistry</option>
+                        <option value="M.Sc Physics">M.Sc Physics</option>
+                        <option value="M.Com CA">M.Com CA</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Create password" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Confirm Password</label>
+                    <input type="password" name="password_confirm" placeholder="Repeat password" required>
+                </div>
+
+            </div>
+
+            <button type="submit" class="button">Register Now</button>
+        </form>
+
+        <p class="footer-text">
+            Already have an account?
+            <a href="{% url 'login' %}" class="register-link">Login here</a>
+        </p>
+    </div>
+</body>
+</html>

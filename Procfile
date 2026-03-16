@@ -1,0 +1,1 @@
+web: gunicorn scgp.wsgi:application

@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Incharge Dashboard - Smart Campus Grievance Portal</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'portal/style.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Welcome, SCGP Grievance Incharge</h2>
+
+    <p><strong>Department:</strong> {{ department_name }}</p>
+
+    <a href="{% url 'logout' %}" class="button">Logout</a>
+
+    <hr>
+
+    <h3>Department Complaints</h3>
+
+    {% if complaints %}
+        {% for complaint in complaints %}
+            <div class="complaint-card">
+
+                <p><strong>Ticket ID:</strong> {{ complaint.ticket_id }}</p>
+                <p><strong>Raised By:</strong> {{ complaint.raised_by.username }}</p>
+                <p><strong>Description:</strong> {{ complaint.description }}</p>
+                <p><strong>Priority (AI Assigned):</strong> {{ complaint.priority }}</p>
+                <p><strong>Status:</strong> {{ complaint.status }}</p>
+                <p><strong>Created At:</strong> {{ complaint.created_at }}</p>
+
+                {% if complaint.resolved_at %}
+                    <p><strong>Resolved At:</strong> {{ complaint.resolved_at }}</p>
+                {% endif %}
+
+                {% if complaint.feedback %}
+                    <p><strong>Student Feedback:</strong> {{ complaint.feedback }}</p>
+                {% endif %}
+
+                <hr>
+
+                <!-- Status Update Form -->
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="complaint_id" value="{{ complaint.id }}">
+
+                    <label>Update Status:</label>
+                    <select name="status">
+
+                        <option value="Pending"
+                            {% if complaint.status == "Pending" %}selected{% endif %}>
+                            Pending
+                        </option>
+
+                        <option value="In Progress"
+                            {% if complaint.status == "In Progress" %}selected{% endif %}>
+                            In Progress
+                        </option>
+
+                        <option value="Resolved"
+                            {% if complaint.status == "Resolved" %}selected{% endif %}>
+                            Resolved
+                        </option>
+
+                    </select>
+
+                    <button type="submit" class="button">Update</button>
+                </form>
+
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No complaints in your department.</p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

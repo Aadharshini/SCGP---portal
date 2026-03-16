@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Track Complaint - Smart Campus Portal</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'portal/style.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Track Complaint</h2>
+
+    <div class="menu">
+        <a href="{% url 'student_dashboard' %}" class="button">Dashboard</a>
+        <a href="{% url 'my_complaints' %}" class="button">My Complaints</a>
+        <a href="{% url 'logout' %}" class="button">Logout</a>
+    </div>
+
+    <hr>
+
+    <form method="POST" class="complaint-form">
+        {% csrf_token %}
+        <input type="text" name="ticket_id" placeholder="Enter Ticket ID" required>
+        <button type="submit" class="button">Track</button>
+    </form>
+
+    <hr>
+
+    {% if complaint %}
+        <div class="complaint-card">
+            <h3>Complaint Details</h3>
+
+            <p><strong>Ticket ID:</strong> {{ complaint.ticket_id }}</p>
+            <p><strong>Department:</strong> {{ complaint.department }}</p>
+            <p><strong>Description:</strong> {{ complaint.description }}</p>
+            <p><strong>Priority:</strong> {{ complaint.priority }}</p>
+            <p><strong>Status:</strong> {{ complaint.status }}</p>
+            <p><strong>Created At:</strong> {{ complaint.created_at }}</p>
+
+            {% if complaint.resolved_at %}
+                <p><strong>Resolved At:</strong> {{ complaint.resolved_at }}</p>
+            {% endif %}
+        </div>
+
+    {% elif request.method == "POST" %}
+        <p style="color:red;"><strong>No complaint found with this Ticket ID.</strong></p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

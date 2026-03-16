@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Campus Grievance Portal</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'portal/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Smart Campus Grievance Portal</h1>
+        <p>
+            Welcome to the online grievance management system.
+            Raise complaints easily and track their status online.
+        </p>
+
+        <hr>
+
+        <div class="login-form">
+            <h3>Login to Your Account</h3>
+
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
+
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+
+                <button type="submit" class="button">Login</button>
+            </form>
+        </div>
+
+        <p>Don't have an account?</p>
+        <a class="button register-btn" href="{% url 'register' %}">
+            Register Here
+        </a>
+    </div>
+</body>
+</html>

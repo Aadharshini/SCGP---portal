@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Dashboard - Smart Campus Portal</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'portal/style.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Welcome, {{ request.user.username }} (Staff)</h2>
+    
+
+    <!-- ===== Navigation Links Added Here ===== -->
+    
+    <div class="menu">
+        <a href="{% url 'staff_dashboard' %}" class="button">Dashboard</a>
+        <a href="{% url 'track_complaint' %}" class="button">Track Complaint</a>
+        <a href="{% url 'my_complaints' %}" class="button">My Complaints</a>
+        <a href="{% url 'logout' %}" class="button">Logout</a>
+    </div>
+
+    <hr>
+
+    <!-- ======================= -->
+    <!-- Raise Complaint Section -->
+    <!-- ======================= -->
+
+    <h3>Raise New Complaint</h3>
+
+    <form method="POST" action="{% url 'staff_dashboard' %}">
+        {% csrf_token %}
+
+         <!-- NEW: ISSUE DEPARTMENT DROPDOWN -->
+        <label>Select Issue Department:</label>
+        <select name="department" required>
+            <option value="">-- Select Department --</option>
+            <option value="Library">Library</option>
+            <option value="IT Support">IT Support</option>
+            <option value="Academic">Academic</option>
+            <option value="Canteen">Canteen</option>
+            <option value="Infrastructure">Infrastructure</option>
+            <option value="Administration">Administration</option>
+            <option value="Security">Security</option>
+            <option value="FirstAid/Medical">FirstAid/Medical</option>
+            <option value="Events/Extracurricular">Events/Extracurricular</option>
+            <option value="Restroom">Restroom</option>
+        </select>
+
+        <br><br>
+        
+        <textarea 
+            name="description" 
+            placeholder="Describe your issue in detail..." 
+            rows="5" 
+            required></textarea>
+
+        <br><br>
+
+        <button type="submit" class="button">
+            Submit Complaint
+        </button>
+    </form>
+
+    <hr>
+
+    <!-- ======================= -->
+    <!-- Complaint History       -->
+    <!-- ======================= -->
+
+    <h3>Your Complaints</h3>
+
+    {% if complaints %}
+        {% for complaint in complaints %}
+            <div class="complaint-card">
+                <p><strong>Ticket ID:</strong> {{ complaint.ticket_id }}</p>
+                <p><strong>Description:</strong> {{ complaint.description }}</p>
+                <p><strong>Department:</strong> {{ complaint.department }}</p>
+                <p><strong>Priority (AI Assigned):</strong> {{ complaint.priority }}</p>
+                <p><strong>Status:</strong> {{ complaint.status }}</p>
+                <p><strong>Created At:</strong> {{ complaint.created_at }}</p>
+
+                {% if complaint.resolved_at %}
+                    <p><strong>Resolved At:</strong> {{ complaint.resolved_at }}</p>
+                {% endif %}
+            </div>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>No complaints submitted yet.</p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard - Smart Campus Portal</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'portal/style.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Welcome, {{ request.user.username }} (Student)</h2>
+
+    <div class="menu">
+        <a href="{% url 'student_dashboard' %}" class="button">Dashboard</a>
+        <a href="{% url 'my_complaints' %}" class="button">My Complaints</a>
+        <a href="{% url 'track_complaint' %}" class="button">Track Complaint</a>
+        <a href="{% url 'logout' %}" class="button">Logout</a>
+    </div>
+
+    <hr>
+
+    <!-- ======================= -->
+    <!-- Raise Complaint Section -->
+    <!-- ======================= -->
+
+    <h3>Raise New Complaint</h3>
+
+    <form method="POST" action="{% url 'student_dashboard' %}" class="complaint-form">
+        {% csrf_token %}
+
+        <!-- NEW: ISSUE DEPARTMENT DROPDOWN -->
+        <label>Select Issue Department:</label>
+        <select name="department" required>
+            <option value="">-- Select Department --</option>
+            <option value="Hostel">Hostel</option>
+            <option value="Library">Library</option>
+            <option value="Transport">Transport</option>
+            <option value="Academic">Academic</option>
+            <option value="Canteen">Canteen</option>
+            <option value="Infrastructure">Infrastructure</option>
+            <option value="Stationary">Stationary</option>
+            <option value="Administration">Administration</option>
+            <option value="Security">Security</option>
+            <option value="FirstAid/Medical">FirstAid/Medical</option>
+            <option value="Events/Extracurricular">Events/Extracurricular</option>
+            <option value="Restroom">Restroom</option>
+            
+        </select>
+
+        <br><br>
+
+        <textarea 
+            name="description" 
+            placeholder="Describe your issue in detail..." 
+            rows="5" 
+            required></textarea>
+
+        <br><br>
+
+        <button type="submit" class="button">
+            Submit Complaint
+        </button>
+    </form>
+
+</div>
+
+</body>
+</html>

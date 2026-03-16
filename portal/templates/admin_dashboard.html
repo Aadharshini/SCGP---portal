@@ -1,0 +1,225 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - Smart Campus Grievance Portal></title>
+    <link rel="stylesheet" type="text/css" href="{% static 'portal/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background: #f4f6f9;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+        }
+
+        canvas {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h3 {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Admin Dashboard</h2>
+    <a href="{% url 'logout' %}" class="button">Logout</a>
+
+    <hr>
+
+    <h3>Total Complaints: {{ total_complaints }}</h3>
+
+    <hr>
+
+    <h3>Status Distribution</h3>
+    <canvas id="statusChart"></canvas>
+
+    <h3>Department-wise Complaints</h3>
+    <canvas id="departmentChart"></canvas>
+
+    <h3>AI Priority Distribution</h3>
+    <canvas id="priorityChart"></canvas>
+
+    <h3>Monthly Complaint Trend</h3>
+    <canvas id="monthlyChart"></canvas>
+
+</div>
+
+<script>
+
+function chartOptions() {
+    return {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: true,
+                labels: {
+                    font: { size: 14 }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        }
+    };
+}
+
+
+// ================= STATUS BAR =================
+const statusLabels = [
+    {% for item in status_counts %}
+        "{{ item.status }}",
+    {% endfor %}
+];
+
+const statusData = [
+    {% for item in status_counts %}
+        {{ item.count }},
+    {% endfor %}
+];
+
+const statusColors = statusLabels.map(label => {
+    if (label === "Pending") return "#3498db";        // Blue
+    if (label === "In Progress") return "#f39c12";   // Orange
+    if (label === "Resolved") return "#2ecc71";      // Green
+    return "#95a5a6";
+});
+
+new Chart(document.getElementById("statusChart"), {
+    type: "bar",
+    data: {
+        labels: statusLabels,
+        datasets: [{
+            label: "Complaint Status",
+            data: statusData,
+            backgroundColor: statusColors,
+            borderRadius: 6
+        }]
+    },
+    options: chartOptions()
+});
+
+
+// ================= DEPARTMENT BAR =================
+const deptLabels = [
+    {% for item in department_counts %}
+        "{{ item.department }}",
+    {% endfor %}
+];
+
+const deptData = [
+    {% for item in department_counts %}
+        {{ item.count }},
+    {% endfor %}
+];
+
+const deptColors = [
+    "#1abc9c",
+    "#9b59b6",
+    "#e74c3c",
+    "#34495e",
+    "#16a085",
+    "#8e44ad",
+    "#2980b9"
+];
+
+new Chart(document.getElementById("departmentChart"), {
+    type: "bar",
+    data: {
+        labels: deptLabels,
+        datasets: [{
+            label: "Department Complaints",
+            data: deptData,
+            backgroundColor: deptColors,
+            borderRadius: 6
+        }]
+    },
+    options: chartOptions()
+});
+
+
+// ================= PRIORITY BAR =================
+const priorityLabels = [
+    {% for item in priority_counts %}
+        "{{ item.priority }}",
+    {% endfor %}
+];
+
+const priorityData = [
+    {% for item in priority_counts %}
+        {{ item.count }},
+    {% endfor %}
+];
+
+const priorityColors = priorityLabels.map(label => {
+    if (label === "High") return "#e74c3c";     // Red
+    if (label === "Medium") return "#f1c40f";  // Yellow
+    if (label === "Low") return "#2ecc71";     // Green
+    return "#95a5a6";
+});
+
+new Chart(document.getElementById("priorityChart"), {
+    type: "bar",
+    data: {
+        labels: priorityLabels,
+        datasets: [{
+            label: "AI Priority Level",
+            data: priorityData,
+            backgroundColor: priorityColors,
+            borderRadius: 6
+        }]
+    },
+    options: chartOptions()
+});
+
+
+// ================= MONTHLY LINE =================
+const monthLabels = [
+    {% for item in monthly_counts %}
+        "{{ item.month|date:'F Y' }}",
+    {% endfor %}
+];
+
+const monthData = [
+    {% for item in monthly_counts %}
+        {{ item.count }},
+    {% endfor %}
+];
+
+new Chart(document.getElementById("monthlyChart"), {
+    type: "line",
+    data: {
+        labels: monthLabels,
+        datasets: [{
+            label: "Monthly Complaints",
+            data: monthData,
+            borderColor: "#8e44ad",
+            backgroundColor: "rgba(142, 68, 173, 0.2)",
+            fill: true,
+            tension: 0.4,
+            pointRadius: 5
+        }]
+    },
+    options: chartOptions()
+});
+
+</script>
+
+</body>
+</html>

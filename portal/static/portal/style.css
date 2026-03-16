@@ -1,0 +1,100 @@
+/* ============================= */
+/* SMART CAMPUS PORTAL THEME   */
+/* Blue + Teal Professional UI */
+/* ============================= */
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: #f4f6f9;
+}
+
+/* Main Container */
+.container {
+    width: 85%;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Headings */
+h2 {
+    color: #1e3a8a; /* Deep Blue */
+}
+
+h3 {
+    color: #0f766e; /* Teal */
+}
+
+/* Navigation Menu */
+.menu {
+    margin-bottom: 20px;
+}
+
+.menu .button {
+    margin-right: 10px;
+}
+
+/* Buttons */
+.button {
+    background-color: #1e3a8a;
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0f766e;
+}
+
+/* Forms */
+textarea,
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+/* Complaint Cards */
+.complaint-card {
+    background-color: #f9fafb;
+    padding: 15px;
+    border-left: 5px solid #0f766e;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+/* Status Styling */
+.status-pending {
+    color: red;
+    font-weight: bold;
+}
+
+.status-progress {
+    color: orange;
+    font-weight: bold;
+}
+
+.status-resolved {
+    color: green;
+    font-weight: bold;
+}
+
+/* Divider */
+hr {
+    border: none;
+    height: 1px;
+    background: #ddd;
+    margin: 25px 0;
+}
