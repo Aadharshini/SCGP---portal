@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 SECRET_KEY = 'django-insecure-iaooh_i+s%=&!*4+51r5xzmlv2zfp*-by-be3rrez88orh5v^h'
 
-DEBUG = False  # IMPORTANT for production
+DEBUG = True # IMPORTANT for production
 
 ALLOWED_HOSTS = ['scgp-portal.onrender.com']
 
